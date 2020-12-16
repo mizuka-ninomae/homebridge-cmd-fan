@@ -31,3 +31,11 @@ config.json 記入例
 ファイルの場所を指定出来ていれば /home/pi/homebridge-cmd-fan_sh/ でなくて構いません。
 
 設置した.shの中に、それぞれの命令を出すコマンドを記述してください。
+
+テスト環境（testing environment）
+
+・Raspberry Pi3
+
+・Nature Remo 1ST generation
+
+・どれが商品名か分からないこの商品 https://item.rakuten.co.jp/low-ya/fc03-g1003-100/?s-id=ph_pc_itemname
