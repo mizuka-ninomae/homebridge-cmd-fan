@@ -1,5 +1,5 @@
-var Service, Characteristic;
-var exec = require("child_process").exec;
+let Service, Characteristic;
+let exec = require("child_process").exec;
 
 module.exports = function(homebridge){
   Service        = homebridge.hap.Service;
@@ -31,8 +31,8 @@ FanAccessory.prototype.identify = function(callback) {
 //------------------------------------------------------------------------------
 FanAccessory.prototype.getServices = function() {
 
-  var informationService = new Service.AccessoryInformation();
-  var fanService         = new Service.Fan(this.name);
+  let informationService = new Service.AccessoryInformation();
+  let fanService         = new Service.Fan(this.name);
 
   informationService
     .setCharacteristic(Characteristic.Manufacturer, "fan Manufacturer")
@@ -97,27 +97,27 @@ FanAccessory.prototype.setDirection = function(value, callback) {
 }
 //------------------------------------------------------------------------------
 FanAccessory.prototype.setFanState = function(state, callback) {
-  var cmd;
+  let cmd1;
   if (state.power) {
     if      (state.speed == 33) {
-      cmd = this.middle_cmd;
+      cmd1 = this.middle_cmd;
       this.log('Power: ' + state.power + '  FANSpeed: LOW(' + state.speed + ')');
     }
     else if (state.speed == 66) {
-      cmd = this.middle_cmd;
+      cmd1 = this.middle_cmd;
       this.log('Power: ' + state.power + '  FANSpeed: MIDDLE(' + state.speed + ')');
     }
     else if (state.speed == 99) {
-      cmd = this.high_cmd;
+      cmd1 = this.high_cmd;
       this.log('Power: ' + state.power + '  FANSpeed: HIGH(' + state.speed + ')');
     }
   }
   else {
-      cmd = this.off_cmd;
+      cmd1 = this.off_cmd;
       this.log('Power: ' + state.power);
   }
 
-  this.cmdRequest(cmd, function(error, stdout, stderr) {
+  this.cmdRequest(cmd1, function(error, stdout, stderr) {
     if (error) {
       this.log('Function Failed', error);
       callback(error);
@@ -131,17 +131,17 @@ FanAccessory.prototype.setFanState = function(state, callback) {
 
 //------------------------------------------------------------------------------
 FanAccessory.prototype.setFanState2 = function(state, callback) {
-  var cmd;
+  let cmd2;
   if (state.direction == 0) {
-      cmd = this.clockwise_cmd;
+      cmd2 = this.clockwise_cmd;
       this.log('Direction: CLOCKWISE!');
   }
   else {
-      cmd = this.c_clockwise_cmd;
+      cmd2 = this.c_clockwise_cmd;
       this.log('Direction: COUNTER CLOCKWISE!');
   }
 
-  this.cmdRequest(cmd, function(error, stdout, stderr) {
+  this.cmdRequest(cmd2, function(error, stdout, stderr) {
     if (error) {
       this.log('Function Failed', error);
       callback(error);
