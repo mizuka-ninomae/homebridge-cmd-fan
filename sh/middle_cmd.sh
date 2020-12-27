@@ -1,0 +1,1 @@
+curl -X POST "https://api.nature.global/1/signals/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/send" -H "accept: application/json" -k --header "Authorization: Bearer XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
