@@ -1,5 +1,5 @@
 let Service, Characteristic;
-let exec = require("child_process").exec;
+let exec         = require("child_process").exec;
 
 module.exports = function(homebridge){
   Service        = homebridge.hap.Service;
@@ -8,53 +8,51 @@ module.exports = function(homebridge){
 }
 
 function FanAccessory(log, config) {
-  this.log             = log;
-  this.high_cmd        = config["high_cmd"];
-  this.middle_cmd      = config["middle_cmd"];
-  this.low_cmd         = config["low_cmd"];
-  this.off_cmd         = config["off_cmd"];
-  this.clockwise_cmd   = config["clockwise_cmd"];
-  this.c_clockwise_cmd = config["c_clockwise_cmd"];
-  this.name            = config["name"];
+  this.log                   = log;
+  this.name                  = config["name"];
+  this.high_cmd              = config["high_cmd"];
+  this.middle_cmd            = config["middle_cmd"];
+  this.low_cmd               = config["low_cmd"];
+  this.off_cmd               = config["off_cmd"];
+  this.clockwise_cmd         = config["clockwise_cmd"];
+  this.c_clockwise_cmd       = config["c_clockwise_cmd"];
+  this.Use_Counter_Clockwise = config["Use_Counter_Clockwise"] || false;
   this.state = {
     power: false,
     speed: 0,
   };
-}
 
-//------------------------------------------------------------------------------
-FanAccessory.prototype.identify = function(callback) {
-  this.log("Identify requested!");
-  callback();
+  this.informationService    = new Service.AccessoryInformation();
+  this.fanService            = new Service.Fan(this.name);
+
+  this.informationService
+  .setCharacteristic(Characteristic.Manufacturer, "fan Manufacturer")
+  .setCharacteristic(Characteristic.Model, "fan Model")
+  .setCharacteristic(Characteristic.SerialNumber, "fan Serial Number");
+
+  this.fanService
+  .getCharacteristic(Characteristic.On)
+  .on('set', this.setOn.bind(this))
+
+  this.fanService
+  .getCharacteristic(Characteristic.RotationSpeed)
+  .setProps({
+    minValue: 0,
+    maxValue: 99,
+    minStep:  33,
+  })
+  .on('set', this.setSpeed.bind(this))
+  
+  if (this.Use_Counter_Clockwise) {
+    this.fanService
+    .getCharacteristic(Characteristic.RotationDirection)
+    .on('set', this.setDirection.bind(this));
+  }
 }
 
 //------------------------------------------------------------------------------
 FanAccessory.prototype.getServices = function() {
-
-  let informationService = new Service.AccessoryInformation();
-  let fanService         = new Service.Fan(this.name);
-
-  informationService
-    .setCharacteristic(Characteristic.Manufacturer, "fan Manufacturer")
-    .setCharacteristic(Characteristic.Model, "fan Model")
-    .setCharacteristic(Characteristic.SerialNumber, "fan Serial Number");
-
-  fanService
-    .getCharacteristic(Characteristic.On)
-    .on('set', this.setOn.bind(this))
-
-  fanService
-    .getCharacteristic(Characteristic.RotationSpeed)
-    .setProps({
-       minValue: 0,
-       maxValue: 99,
-       minStep:  33,
-    })
-    .on('set', this.setSpeed.bind(this))
-  fanService
-    .getCharacteristic(Characteristic.RotationDirection)
-    .on('set', this.setDirection.bind(this));
-  return [fanService];
+  return [this.informationService, this.fanService];
 }
 
 //------------------------------------------------------------------------------
