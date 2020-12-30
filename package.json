@@ -18,5 +18,5 @@
   "scripts": {
     "lint": "echo \"Warning: lint is not used\" && exit 0",
     "build": "echo \"Warning: build is not used\" && exit 0"
-  },
+  }
 }
