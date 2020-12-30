@@ -14,5 +14,9 @@
   "engines": {
     "node": ">=10.17.0",
     "homebridge": ">=1.0.0"
-  }
+  },
+  "scripts": {
+    "lint": "echo \"Warning: lint is not used\" && exit 0",
+    "build": "echo \"Warning: build is not used\" && exit 0"
+  },
 }
