@@ -16,7 +16,6 @@ function FanAccessory(log, config) {
   this.off_cmd               = config["off_cmd"];
   this.clockwise_cmd         = config["clockwise_cmd"];
   this.c_clockwise_cmd       = config["c_clockwise_cmd"];
-  this.Use_Counter_Clockwise = config["Use_Counter_Clockwise"] || false;
   this.state = {
     power: false,
     speed: 0,
@@ -42,12 +41,10 @@ function FanAccessory(log, config) {
     minStep:  33,
   })
   .on('set', this.setSpeed.bind(this))
-  
-  if (this.Use_Counter_Clockwise) {
-    this.fanService
-    .getCharacteristic(Characteristic.RotationDirection)
-    .on('set', this.setDirection.bind(this));
-  }
+
+  this.fanService
+  .getCharacteristic(Characteristic.RotationDirection)
+  .on('set', this.setDirection.bind(this));
 }
 
 //------------------------------------------------------------------------------
@@ -61,7 +58,7 @@ FanAccessory.prototype.setOn = function(value, callback) {
     this.log('Power Button: ' + value);
     this.state.power = value;
     this.setFanState(this.state, callback);
-  } 
+  }
   else {
     callback(null);
   }
@@ -88,7 +85,7 @@ FanAccessory.prototype.setDirection = function(value, callback) {
   if (this.state.direction != value) {
     this.state.direction = value;
     this.setFanState2(this.state, callback);
-  } 
+  }
   else {
     callback(null);
   }
