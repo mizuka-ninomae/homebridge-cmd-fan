@@ -10,7 +10,7 @@ Homebridge：  https：//github.com/nfarina/homebridge
 の設定が可能です。
 
 NatureRemo Cloud API特化バージョン
-https://github.com/mizuka-ninomae/homebridge-nature-remo-cloud-fan#readme
+https://www.npmjs.com/package/homebridge-nature-remo-cloud-fan
 
 
 config.json 記入例
